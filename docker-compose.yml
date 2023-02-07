@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+
+  mongo:
+    container_name: mongo_wolf
+    image: mongo:4.4
+    logging:
+      driver: "none"
+    environment:
+      TZ: "${TZ}"
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+    volumes:
+      - ./mongodata:/data/db
+    ports:
+      - ${MONGO_EXT_PORT}:27017
