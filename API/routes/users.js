@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { checkAuth } = require("../middlewares/authentication.js");
+const fileUpload = require("express-fileupload");
 
 require("dotenv").config();
 
@@ -26,16 +27,16 @@ router.post("/register", async (req, res) => {
     const password = req.body.password;
     // const type = req.body.type;
     const encryptedPassword = bcrypt.hashSync(password, 10);
-    const userId = req.body.userId;
-    const active = req.body.active;
+    const userName = req.body.userName;
+    //const active = req.body.active;
 
     const newUser = {
       name: name,
       // email: email,
       password: encryptedPassword,
-      type: type,
-      userId: userId,
-      active: active
+      // type: type,
+      userName: userName,
+      // active: active
     };
 
     var user = await User.create(newUser);
@@ -64,15 +65,6 @@ router.post("/register", async (req, res) => {
     return res.status(500).json(response);
   }
 });
-
-
-
-
-
-
-
-
-
 
 
 module.exports = router;

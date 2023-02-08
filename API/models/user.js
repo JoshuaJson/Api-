@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-const  uniqueValidator = requiere("mongoose-unique-validator");
+
+const mongoose = require("mongoose");
+const  uniqueValidator = require("mongoose-unique-validator");
 //const validator = require("validator");
 
 const Schema = mongoose.Schema;
@@ -7,14 +8,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: {type: String, require: [true]},
     password: {type: String, require:[true]},
-    userId: { type: String },
-    email: {
-        type: String,
-        required: [true],
-        unique: [true],
-        lowercase: [true],
-        index: [true],
-      },
+    userName: { type: String },
+    // email: {
+    //     type: String,
+    //     required: [true],
+    //     unique: [true],
+    //     lowercase: [true],
+    //     index: [true],
+    //   },
     createdAt: { type: Date, default: Date.now },
 
 });
@@ -26,4 +27,5 @@ userSchema.plugin(uniqueValidator, { message: "Error, email already exists." });
 // convert to model
 const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = User;
+

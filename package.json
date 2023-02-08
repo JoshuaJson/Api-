@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "description": "Curso Forex",
   "author": "Urkdash-Team",
+  
   "scripts": {
     "devn": "nodemon api/index.js --exec babel-node"
 

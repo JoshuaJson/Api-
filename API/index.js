@@ -34,8 +34,7 @@ app.use(cors());
 
 
 //ExPress Routes
-app.use("/api1", require("./routes/users.js"));
-
+app.use("/api", require("./routes/users.js"));
 
 
 
