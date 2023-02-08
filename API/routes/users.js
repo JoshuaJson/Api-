@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { checkAuth } = require("../middlewares/authentication.js");
-const fileUpload = require("express-fileupload");
+
 
 require("dotenv").config();
 
