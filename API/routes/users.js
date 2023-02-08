@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { checkAuth } = require("../middlewares/authentication.js");
-const fileUpload = require("express-fileupload");
+
 
 require("dotenv").config();
 
@@ -66,6 +66,61 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
+//LOGIN
+router.post("/login", async (req, res) => {
+  try {
+    const userName = req.body.userName;
+    const password = req.body.password;
+
+    var user = await User.findOne({ userName: userName});
+
+    //if no userName
+    if (!user) {
+      const response = {
+        status: "error",
+        error: "Invalid Credentials"
+      };
+      return res.status(401).json(response);
+    }
+
+    var isValid = await bcrypt.compare(password, user.password);
+
+    //if no password
+    if (!isValid) {
+      const response = {
+        status: "error",
+        error: "Invalid Credentials"
+      };
+      return res.status(401).json(response);
+    }
+
+    //if userName and userName ok
+    if (bcrypt.compareSync(password, user.password)) {
+      user.set("password", undefined, { strict: false });
+
+      const token = jwt.sign({ userData: user }, JWT_SECRET, {
+        expiresIn: 60 * 60 * 24 * 30
+      });
+
+      const response = {
+        status: "success",
+        token: token,
+        userData: user
+      };
+
+      return res.json(response);
+    } else {
+      const response = {
+        status: "error",
+        error: "Invalid Credentials"
+      };
+      return res.status(401).json(response);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;
 
