@@ -35,7 +35,7 @@ app.use(cors());
 
 //ExPress Routes
 app.use("/api", require("./routes/users.js"));
-
+app.use("/api", require("./routes/basico.js"));
 
 
 

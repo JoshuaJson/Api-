@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+
 
 //Models import
 const Basico = require("../models/basico.js");
@@ -24,6 +23,29 @@ router.get("/basico", checkAuth, async (req, res) =>{
 
 //post Video
 router.post("/basico", checkAuth, async (req, res) =>{
+    try {
+
+        var newBasico = req.body.Basico;
+
+        newBasico.createdTime = Date.now();
+    
+        const r = await Basico.create(newBasico);
+    
+        const response = {
+          status: "success"
+        };
+    
+        return res.json(response);
+      } catch (error) {
+        console.log(error);
+    
+        const response = {
+          status: "error",
+          error: error
+        };
+    
+        return res.status(500).json(response);
+      }
 
 })
 
