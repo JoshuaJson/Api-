@@ -21,7 +21,7 @@ router.post("/curso", checkAuth, async (req, res) =>{
 
         var newCurso = req.body.Curso;
 
-        // newCurso.createdTime = Date.now();
+
     
         const r = await Curso.create(newCurso);
     

@@ -9,13 +9,14 @@ const userSchema = new Schema({
     name: {type: String, require: [true]},
     password: {type: String, require:[true]},
     userName: { type: String },
-    // email: {
-    //     type: String,
-    //     required: [true],
-    //     unique: [true],
-    //     lowercase: [true],
-    //     index: [true],
-    //   },
+     email: {
+         type: String,
+         required: [true],
+         unique: [true],
+         lowercase: [true],
+         index: [true],
+       },
+    active: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now },
 
 });

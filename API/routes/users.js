@@ -23,20 +23,18 @@ router.get("/testing", (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const name = req.body.name;
-    // const email = req.body.email;
+    const email = req.body.email;
     const password = req.body.password;
-    // const type = req.body.type;
+    
     const encryptedPassword = bcrypt.hashSync(password, 10);
-    const userName = req.body.userName;
-    //const active = req.body.active;
+    const active = req.body.active;
 
     const newUser = {
       name: name,
-      // email: email,
+      email: email,
       password: encryptedPassword,
       // type: type,
-      userName: userName,
-      // active: active
+      active: active
     };
 
     var user = await User.create(newUser);
