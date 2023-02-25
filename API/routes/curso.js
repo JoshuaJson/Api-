@@ -42,7 +42,7 @@ router.post("/curso", checkAuth, async (req, res) =>{
       }
 
 })
-
+//Get Video
 router.get("/curso", checkAuth, async (req, res)=>{
 try {
   const userId = req.userData.userId;
@@ -67,5 +67,54 @@ try {
   
 }
 })
+
+//delete video
+router.delete("/curso", checkAuth, async (req, res) => {
+  try {
+    const userId = req.query._id;
+    const titulo = req.query.titulo;
+    const tipoDeVideo= req.query.tipoDeVideo
+
+    const result = await Curso.deleteOne({ _id: userId, titulo: titulo, tipoDeVideo : tipoDeVideo });
+
+    const response = {
+      status: "success"
+    };
+
+    return res.json(response);
+  } catch (error) {
+    console.log("ERROR DELETING USER");
+    console.log(error);
+
+    const response = {
+      status: "error",
+      error: error
+    };
+
+    return res.status(500).json(response);
+  }
+});
+
+//Update video
+router.put("/curso", checkAuth, async (req, res) => {
+  try {
+    const videoId = req.body._id;
+    const titulo = req.body.titulo;
+    const tipoDeVideo= req.body.tipoDeVideo
+    const video = req.body.video
+    const result = await Curso.updateOne(
+      { _id: videoId, tipoDeVideo: tipoDeVideo},
+      { $set: { titulo: titulo , video: video} }
+    );
+
+    const response = {
+      status: "success"
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;

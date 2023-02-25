@@ -15,9 +15,6 @@ const User = require("../models/user.js");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-router.get("/testing", (req, res) => {
-  res.send("Hello IoT GL API from devices.js");
-});
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -120,6 +117,52 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//DELETE USER
+router.delete("/user", checkAuth, async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const email = req.query.email;
+
+    const result = await User.deleteOne({ _id: userId, email: email });
+
+    const response = {
+      status: "success"
+    };
+
+    return res.json(response);
+  } catch (error) {
+    console.log("ERROR DELETING USER");
+    console.log(error);
+
+    const response = {
+      status: "error",
+      error: error
+    };
+
+    return res.status(500).json(response);
+  }
+});
+
+//Update User (active)
+router.put("/user", checkAuth, async (req, res) => {
+  try {
+    const userId = req.userData._id;
+    const email = req.userData.email;
+    const active = req.body.active;
+    const result = await User.updateOne(
+      { _id: userId, email: email },
+      { $set: { active: active} }
+    );
+
+    const response = {
+      status: "success"
+    };
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;
 
 
